@@ -1,0 +1,94 @@
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap');
+
+/* CSS Reset */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Custom Properties (Design Tokens) */
+:root {
+    /* Màu chủ đạo */
+    --color-green: #20733b;
+    --color-green-dark: #165a2e;
+    --color-green-light: #e8f5ed;
+    --color-green-mid: #2d9150;
+
+    /* Màu vàng cam */
+    --color-gold: #ffbf20;
+    --color-gold-dark: #d9a010;
+    --color-gold-light: #fff8e1;
+
+    /* Màu văn bản */
+    --color-text: #1a1a1a;
+    --color-text-muted: #5a6a70;
+    --color-text-light: #8a9da5;
+
+    /* Màu nền */
+    --color-bg: #ffffff;
+    --color-bg-light: #f8faf9;
+    --color-bg-dark: #111e18;
+
+    /* Đường viền */
+    --color-border: #dde4e0;
+
+    /* Hiệu ứng */
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+
+    /* Border radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+
+    /* Typography */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+
+    /* Spacing */
+    --section-padding: 80px 5%;
+    --container-max: 1200px;
+}
+
+/* HTML & Body */
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background: var(--color-bg);
+    overflow-x: hidden;
+    line-height: 1.6;
+    min-height: 120vh;
+}
+
+/* Utility classes */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+/* Smooth scroll offset cho fixed navbar */
+section {
+    scroll-margin-top: 70px;
+}
+
+/* Wrapper chính cho App */
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

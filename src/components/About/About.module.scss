@@ -1,0 +1,152 @@
+.section {
+  padding: var(--section-padding);
+  background: var(--color-bg);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* ==================== VISUAL - IMAGE ==================== */
+.visualCol {
+  position: relative;
+}
+
+.visual {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 16 / 13;           // Tỉ lệ khung hình đẹp
+  background: linear-gradient(135deg, var(--color-green-light) 0%, #c8e6d0 100%);
+
+  @media (max-width: 900px) {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.visualBg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;           // Rất quan trọng
+  object-position: center;
+  transition: transform 0.6s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* ==================== TEXT COLUMN ==================== */
+.textCol {
+  @media (max-width: 900px) {
+    text-align: center;
+  }
+}
+
+.tag {
+  display: inline-block;
+  background: var(--color-green-light);
+  color: var(--color-green);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.divider {
+  width: 64px;
+  height: 4px;
+  background: var(--color-gold);
+  border-radius: 2px;
+  margin-bottom: 24px;
+
+  @media (max-width: 900px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.desc {
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
+
+  strong {
+    color: var(--color-green);
+  }
+}
+
+/* Values & Stats */
+.values {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.valueItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.valueIcon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.stat {
+  background: var(--color-green-light);
+  border-radius: var(--radius-sm);
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.statValue {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-green);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

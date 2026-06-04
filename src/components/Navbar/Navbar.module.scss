@@ -1,0 +1,257 @@
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  background: var(--color-green);
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  &.scrolled {
+    height: 68px;
+    background: rgba(255, 255, 255, 0.98);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+
+    .logoName { color: var(--color-green-dark); }
+    .logoTagline { color: var(--color-green-dark); }
+    .menu a { color: var(--color-green-dark); }
+    .hotline { color: var(--color-green-dark); }
+    .hamburger span { background: var(--color-green-dark); }
+  }
+}
+
+// Logo
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logoImage {
+  height: 62px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logoName {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.logoTagline {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.4px;
+}
+
+// Menu Desktop
+.menu {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+
+  a {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    position: relative;
+    padding: 6px 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-gold);
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+// Hotline Group
+.hotlineGroup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.hotline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14.5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-gold);
+    color: var(--color-green-dark);
+    transform: translateY(-2px);
+  }
+}
+
+// Hamburger
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+
+  @media (max-width: 900px) {
+    display: flex;
+  }
+
+  span {
+    width: 26px;
+    height: 2.5px;
+    background: #fff;
+    border-radius: 2px;
+    transition: 0.4s;
+  }
+
+  &.active {
+    span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    span:nth-child(2) { opacity: 0; }
+    span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+  }
+}
+
+// Mobile Menu
+.mobileMenu {
+  position: fixed;
+  top: 76px;
+  left: 0;
+  right: 0;
+  background: var(--color-green-dark);
+  padding: 20px 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mobileLink {
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobileHotlineTitle {
+  color: var(--color-gold);
+  font-weight: 600;
+  margin: 12px 0 8px;
+  font-size: 15px;
+}
+
+.mobileHotline {
+  color: var(--color-gold);
+  font-weight: 700;
+  padding: 12px 0;
+  text-decoration: none;
+  font-size: 16.5px;
+}
+
+// Thêm vào cuối file hoặc sau phần .menu a
+
+.navLink {
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  position: relative;
+  padding: 6px 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-gold);
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &.active {
+    color: var(--color-gold);
+    font-weight: 600;
+
+    &::after {
+      width: 100%;
+      background: var(--color-gold);
+    }
+  }
+}
+
+// Trong phần .scrolled
+&.scrolled {
+  
+  .navLink {
+    color: var(--color-green-dark);
+    
+    &.active {
+      color: var(--color-gold);
+    }
+  }
+}
+
+// Mobile active
+.mobileLink {
+  &.active {
+    color: var(--color-gold);
+    font-weight: 700;
+    border-left: 4px solid var(--color-gold);
+    padding-left: 12px;
+  }
+}
