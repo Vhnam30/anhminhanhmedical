@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 
 // Public
 import Home from "./pages/Home";
+import ServicesPage from "./pages/ServicesPage/index.js"
 import Product from "./components/Product/index.js";
 import Contact from "./components/Contact/index.js";
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/san-pham" element={<Product />} />
         <Route path="/lien-he" element={<Contact />} />
+        <Route path="/dich-vu" element={<ServicesPage />} />
 
  
 

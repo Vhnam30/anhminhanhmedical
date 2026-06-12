@@ -6,7 +6,7 @@ import { logo } from '../../assets/img';
 const NAV_ITEMS = [
   { label: 'Trang chủ', to: '/' },
   { label: 'Sản phẩm', to: '/san-pham' },
-  { label: 'Dịch vụ', to: '#services' },
+  { label: 'Dịch vụ', to: '/dich-vu' },
   { label: 'Liên hệ', to: '/lien-he' },
   { label: 'Về chúng tôi', to: '#about' },
 ];
