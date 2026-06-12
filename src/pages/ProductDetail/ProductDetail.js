@@ -12,6 +12,7 @@ function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("specs");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,11 +20,10 @@ function ProductDetail() {
         setLoading(true);
         const res = await axios.get(`http://localhost:5000/api/product-details/${slug}`);
         
-        console.log("📡 API Response:", res.data); // Debug
-
         if (res.data.success) {
           setProduct(res.data.product);
           setDetail(res.data.detail || {});
+          setCurrentImageIndex(0); // Reset index khi load sản phẩm mới
         } else {
           setError("Không tìm thấy sản phẩm");
         }
@@ -38,6 +38,24 @@ function ProductDetail() {
     if (slug) fetchData();
   }, [slug]);
 
+  // === AUTO SLIDE - ĐÃ TỐI ƯU ===
+  useEffect(() => {
+    const detailImages = detail.images || [];
+    const productImages = product?.images || [];
+    const allImages = detailImages.length > 0 ? detailImages : productImages;
+
+    if (allImages.length <= 1) {
+      setCurrentImageIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
+    }, 4000); // 4 giây - dễ nhìn hơn
+
+    return () => clearInterval(interval);
+  }, [detail.images, product?.images]); // Phụ thuộc vào mảng ảnh
+
   const goToContact = () => {
     navigate("/lien-he");
   };
@@ -46,25 +64,46 @@ function ProductDetail() {
   if (error) return <div style={{ padding: '100px', textAlign: 'center', color: 'red' }}>{error}</div>;
   if (!product) return <div style={{ padding: '100px', textAlign: 'center' }}>Không tìm thấy sản phẩm</div>;
 
+  // Ưu tiên ảnh từ ProductDetail
+  const detailImages = detail.images || [];
+  const productImages = product?.images || [];
+  const allImages = detailImages.length > 0 ? detailImages : productImages;
+
+  const currentImage = allImages[currentImageIndex] || allImages[0] || null;
+
   return (
     <section className={styles.section} id="product">
       <div className={styles.inner}>
         <div className={styles.grid}>
           
-          {/* Cột trái: Hình ảnh */}
+          {/* Cột trái: Hình ảnh - AUTO SLIDE */}
           <div className={styles.imageCol}>
             <div className={styles.imageBox} role="img" aria-label={product.name}>
-              {product.images && product.images.length > 0 ? (
+              {currentImage ? (
                 <img
-                  src={product.images[0]}
+                  src={currentImage}
                   alt={product.name}
                   className={styles.productImage}
                 />
               ) : (
                 <div className={styles.placeholder}>Đang cập nhật hình ảnh</div>
               )}
+              
               <div className={styles.certBadge}>✅ Sản phẩm chính hãng</div>
             </div>
+
+            {/* Dots indicator */}
+            {allImages.length > 1 && (
+              <div className={styles.dots}>
+                {allImages.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`${styles.dot} ${index === currentImageIndex ? styles.activeDot : ''}`}
+                    onClick={() => setCurrentImageIndex(index)} // Click để chọn ảnh
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Cột phải: Thông tin */}
@@ -99,7 +138,7 @@ function ProductDetail() {
                     detail.specs.map((spec, i) => (
                       <li key={i} className={styles.specItem}>
                         <span className={styles.checkIcon}>✓</span>
-                        {spec}   {/* ← Sửa ở đây: chỉ hiển thị string */}
+                        {spec}
                       </li>
                     ))
                   ) : (

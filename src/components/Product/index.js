@@ -10,45 +10,25 @@ import { l8d } from "../../assets/img/l8d/index.js";
 function Product({ fullMode = false }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
   const [currentIndex, setCurrentIndex] = useState({});
 
   // Dữ liệu tĩnh fallback (sản phẩm cũ)
   const staticProducts = [
     {
-      slug: "jumper-jpd-300pa",
-      name: (<>MÁY CTG <span className={styles.highlight}>không dây</span> JUMPER JPD-300Pa</>),
-      brand: "JUMPER - Angelsounds",
-      description: (
-        <>
-          Máy theo dõi tim thai và cơn co tử cung cao cấp với đầu dò{" "}
-          <span className={styles.highlight}>không dây</span> hiện đại.
-        </>
-      ),
-      images: [jumper300pa[0], jumper300pa[1], jumper300pa[2]],
-      badge: "Nổi bật",
+      // slug: "jumper-jpd-300pa",
+      // name: (<>MÁY CTG <span className={styles.highlight}>không dây</span> JUMPER JPD-300Pa</>),
+      // brand: "JUMPER - Angelsounds",
+      // description: (
+      //   <>
+      //     Máy theo dõi tim thai và cơn co tử cung cao cấp với đầu dò{" "}
+      //     <span className={styles.highlight}>không dây</span> hiện đại.
+      //   </>
+      // ),
+      // images: [jumper300pa[0], jumper300pa[1], jumper300pa[2]],
+      // badge: "Nổi bật",
     },
-    {
-      slug: "ctg-lukcome-l8pm",
-      name: (<>MÁY CTG <span className={styles.highlight}>không dây</span> LUCKCOME L8P-M</>),
-      brand: "LUCKCOME",
-      description: (
-        <>
-          Máy theo dõi sản khoa cao cấp với màn hình{" "}
-          <span className={styles.highlight}>cảm ứng</span> 10.2 inch...
-        </>
-      ),
-      images: [l8pm[0], l8pm[1], l8pm[2]],
-      badge: "Mới",
-    },
-    {
-      slug: "ctg-lukcome-l8d",
-      name: "MÁY CTG LUCKCOME L8D",
-      brand: "LUCKCOME",
-      description: "Máy theo dõi sản khoa L8D với màn hình TFT 7 inch...",
-      images: [l8d[0], l8d[1], l8d[2]],
-      badge: "Phổ biến",
-    },
+    
   ];
 
   useEffect(() => {

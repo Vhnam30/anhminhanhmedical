@@ -14,8 +14,12 @@ function ProductDetailManagement() {
     certifications: [],
     price: 'Liên hệ để nhận báo giá',
     warranty: 'Bảo hành chính hãng',
-    origin: ''
+    origin: '',
+    images: []           // Ảnh chi tiết
   });
+
+  const [newImages, setNewImages] = useState([]);        // Ảnh mới chọn
+  const [previewUrls, setPreviewUrls] = useState([]);    // Preview ảnh mới
 
   const token = localStorage.getItem('token');
 
@@ -47,35 +51,62 @@ function ProductDetailManagement() {
           certifications: Array.isArray(d.certifications) ? d.certifications : [],
           price: d.price || 'Liên hệ để nhận báo giá',
           warranty: d.warranty || 'Bảo hành chính hãng',
-          origin: d.origin || ''
+          origin: d.origin || '',
+          images: d.images || []           // Lấy ảnh từ ProductDetail
         });
       }
+      setNewImages([]);
+      setPreviewUrls([]);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // Xử lý chọn ảnh mới
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files).slice(0, 5); // Giới hạn 5 ảnh
+    setNewImages(files);
+
+    const previews = files.map(file => URL.createObjectURL(file));
+    setPreviewUrls(previews);
+  };
+
   const handleSaveDetail = async () => {
     if (!selectedProduct) return alert("Vui lòng chọn sản phẩm");
+
+    const formData = new FormData();
+
+    // Thêm các trường text
+    formData.append('tag', detailData.tag);
+    formData.append('longDescription', detailData.longDescription);
+    formData.append('specs', detailData.specs.join('\n'));
+    formData.append('advantages', detailData.advantages.join('\n'));
+    formData.append('certifications', detailData.certifications.join('\n'));
+    formData.append('price', detailData.price);
+    formData.append('warranty', detailData.warranty);
+    formData.append('origin', detailData.origin);
+
+    // Thêm ảnh mới (nếu có)
+    newImages.forEach(file => {
+      formData.append('images', file);
+    });
 
     try {
       await axios.post(
         `http://localhost:5000/api/product-details/${selectedProduct}`,
-        detailData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        formData,
+        { 
+          headers: { 
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data' 
+          } 
+        }
       );
-      alert('✅ Cập nhật chi tiết sản phẩm thành công!');
+      alert('✅ Cập nhật chi tiết + ảnh thành công!');
+      loadDetail(selectedProduct); // Load lại dữ liệu
     } catch (error) {
       alert('❌ Lỗi: ' + (error.response?.data?.message || error.message));
     }
-  };
-
-  // Xử lý thay đổi textarea
-  const handleTextareaChange = (field, value) => {
-    setDetailData(prev => ({
-      ...prev,
-      [field]: value
-    }));
   };
 
   return (
@@ -104,6 +135,40 @@ function ProductDetailManagement() {
           <div className={styles.detailForm}>
             <h3>Chỉnh sửa: <span>{selectedProduct}</span></h3>
 
+            {/* Phần upload ảnh chi tiết */}
+            <div className={styles.imageSection}>
+              <h4>Ảnh chi tiết sản phẩm (tối đa 5)</h4>
+              <input 
+                type="file" 
+                multiple 
+                accept="image/*" 
+                onChange={handleImageChange} 
+                className={styles.fileInput}
+              />
+
+              {/* Preview ảnh mới */}
+              {previewUrls.length > 0 && (
+                <div className={styles.previewContainer}>
+                  {previewUrls.map((url, i) => (
+                    <img key={i} src={url} alt={`preview-${i}`} className={styles.previewImage} />
+                  ))}
+                </div>
+              )}
+
+              {/* Hiển thị ảnh hiện có */}
+              {detailData.images && detailData.images.length > 0 && (
+                <div>
+                  <h5>Ảnh hiện tại:</h5>
+                  <div className={styles.previewContainer}>
+                    {detailData.images.map((url, i) => (
+                      <img key={i} src={url} alt={`current-${i}`} className={styles.previewImage} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Các trường khác */}
             <input 
               type="text" 
               placeholder="Tag" 
@@ -122,24 +187,22 @@ function ProductDetailManagement() {
 
             <h4>Thông số kỹ thuật (mỗi dòng một thông số)</h4>
             <textarea 
-              placeholder="Màn hình: 7 inch TFT&#10;Theo dõi nhịp tim: 50-210 bpm&#10;Pin: Lithium 2200mAh&#10;Kích thước: 295 × 240 × 73 mm"
-              value={Array.isArray(detailData.specs) ? detailData.specs.join('\n') : detailData.specs || ''}
-              onChange={(e) => handleTextareaChange('specs', e.target.value)}
+              value={Array.isArray(detailData.specs) ? detailData.specs.join('\n') : ''}
+              onChange={(e) => setDetailData({...detailData, specs: e.target.value.split('\n')})}
               rows={10}
               className={styles.textarea}
             />
 
             <h4>Ưu điểm nổi bật (mỗi dòng một ưu điểm)</h4>
             <textarea 
-              placeholder="Thiết kế không dây hiện đại&#10;Kết nối Wi-Fi ổn định&#10;In biểu đồ nhiệt thời gian thực&#10;Pin hoạt động liên tục 5 giờ"
-              value={Array.isArray(detailData.advantages) ? detailData.advantages.join('\n') : detailData.advantages || ''}
-              onChange={(e) => handleTextareaChange('advantages', e.target.value)}
+              value={Array.isArray(detailData.advantages) ? detailData.advantages.join('\n') : ''}
+              onChange={(e) => setDetailData({...detailData, advantages: e.target.value.split('\n')})}
               rows={8}
               className={styles.textarea}
             />
 
             <button onClick={handleSaveDetail} className={styles.saveBtn}>
-              💾 Lưu Chi Tiết Sản Phẩm
+              💾 Lưu Chi Tiết Sản Phẩm (Bao gồm ảnh)
             </button>
           </div>
         )}

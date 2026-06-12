@@ -250,3 +250,23 @@
   font-size: 16px;
   text-align: center;
 }
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.activeDot {
+  background-color: #007bff;
+  transform: scale(1.2);
+}

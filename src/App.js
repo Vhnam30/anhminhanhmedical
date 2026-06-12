@@ -13,14 +13,12 @@ import Contact from "./components/Contact/index.js";
 import ProductDetail from "./pages/ProductDetail/ProductDetail.js";
 
 // Static Details
-import Jpd300pa from "./pages/Details/Jpd300pa";
-import CtgLukComeL8pm from "./pages/Details/CtgLukComeL8pm";
-import CtgLukComeL8d from "./pages/Details/CtgLuckComeL8d/index.js";
+
 
 // Admin
 import AdminLogin from "./pages/Admin/Login";
 import AdminDashboard from "./pages/Admin/Dashboard/Dashboard.js";
-import ProductManagement from "./pages/Admin/ProductManagement";
+import ProductManagement from "./pages/Admin/ProductManagement.js";
 import ProductDetailManagement from "./pages/Admin/ProductDetailManagement/ProductDetailManagement.js";
 
 // PrivateRoute
@@ -37,10 +35,7 @@ function App() {
         <Route path="/san-pham" element={<Product />} />
         <Route path="/lien-he" element={<Contact />} />
 
-        {/* Static Detail Pages */}
-        <Route path="/san-pham/jumper-jpd-300pa" element={<Jpd300pa />} />
-        <Route path="/san-pham/ctg-lukcome-l8pm" element={<CtgLukComeL8pm />} />
-        <Route path="/san-pham/ctg-lukcome-l8d" element={<CtgLukComeL8d />} />
+ 
 
         {/* Dynamic Detail */}
         <Route path="/san-pham/:slug" element={<ProductDetail />} />
