@@ -51,7 +51,7 @@ function Product({ fullMode = false }) {
     };
 
     fetchProducts();
-  }, []);
+  }, [staticProducts]);
 
   const handlePrev = (slug) => {
     setCurrentIndex((prev) => ({
