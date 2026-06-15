@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./Product.module.scss";
 
 // Import ảnh tĩnh (dùng làm fallback)
-import { jumper300pa } from "../../assets/img/jumperJpd300pa/index.js";
-import { l8pm } from "../../assets/img/l8pm/index.js";
-import { l8d } from "../../assets/img/l8d/index.js";
+
 
 function Product({ fullMode = false }) {
   const [products, setProducts] = useState([]);
