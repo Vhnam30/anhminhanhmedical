@@ -1,51 +1,30 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Product.module.scss";
 
-// Import ảnh tĩnh (nếu bạn có)
-import jumper300pa from "../../assets/images/products/jumper300pa"; // ← Sửa đường dẫn import ảnh cho đúng
+// Import ảnh tĩnh (dùng làm fallback)
 
 function Product({ fullMode = false }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [currentIndex, setCurrentIndex] = useState({});
 
   // Dữ liệu tĩnh fallback (sản phẩm cũ)
-  const staticProducts = useMemo(() => [
+  const staticProducts = [
     {
-      slug: "jumper-jpd-300pa",
-      name: (
-        <>
-          MÁY CTG <span className={styles.highlight}>không dây</span> JUMPER
-          JPD-300Pa
-        </>
-      ),
-      brand: "JUMPER - Angelsounds",
-      description: (
-        <>
-          Máy theo dõi tim thai và cơn co tử cung cao cấp với đầu dò{" "}
-          <span className={styles.highlight}>không dây</span> hiện đại.
-        </>
-      ),
-      images: jumper300pa ? [jumper300pa[0], jumper300pa[1], jumper300pa[2]] : [],
-      badge: "Nổi bật",
+     
     },
-  ], []);
+  ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        
-        // Sử dụng API URL từ môi trường (đã config trên Vercel)
-        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-        const res = await fetch(`${API_URL}/api/products`);
-        
-        if (!res.ok) throw new Error("Không thể kết nối server");
-
+        const res = await fetch("http://localhost:5000/api/products");
         const data = await res.json();
 
-        if (data.success && data.products && data.products.length > 0) {
+        if (data.success && data.products.length > 0) {
           setProducts(data.products);
         } else {
           setProducts(staticProducts);
@@ -59,7 +38,7 @@ function Product({ fullMode = false }) {
     };
 
     fetchProducts();
-  }, [staticProducts]);   // ← Đã fix exhaustive-deps
+  }, []);
 
   const handlePrev = (slug) => {
     setCurrentIndex((prev) => ({
@@ -101,8 +80,10 @@ function Product({ fullMode = false }) {
 
         <div className={styles.productGrid}>
           {displayedProducts.map((product) => {
-            const index = currentIndex[product.slug] || currentIndex[product.id] || 0;
-            const currentImage = product.images?.[index] || product.images?.[0] || "";
+            const index =
+              currentIndex[product.slug] || currentIndex[product.id] || 0;
+            const currentImage =
+              product.images?.[index] || product.images?.[0] || "";
 
             return (
               <div
