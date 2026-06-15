@@ -1,45 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Product.module.scss";
 
-// Import ảnh tĩnh (dùng làm fallback)
-
+// Import ảnh tĩnh (nếu bạn có)
+import jumper300pa from "../../assets/images/products/jumper300pa"; // ← Sửa đường dẫn import ảnh cho đúng
 
 function Product({ fullMode = false }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [currentIndex, setCurrentIndex] = useState({});
 
   // Dữ liệu tĩnh fallback (sản phẩm cũ)
-  const staticProducts = [
+  const staticProducts = useMemo(() => [
     {
-      // slug: "jumper-jpd-300pa",
-      // name: (<>MÁY CTG <span className={styles.highlight}>không dây</span> JUMPER JPD-300Pa</>),
-      // brand: "JUMPER - Angelsounds",
-      // description: (
-      //   <>
-      //     Máy theo dõi tim thai và cơn co tử cung cao cấp với đầu dò{" "}
-      //     <span className={styles.highlight}>không dây</span> hiện đại.
-      //   </>
-      // ),
-      // images: [jumper300pa[0], jumper300pa[1], jumper300pa[2]],
-      // badge: "Nổi bật",
+      slug: "jumper-jpd-300pa",
+      name: (
+        <>
+          MÁY CTG <span className={styles.highlight}>không dây</span> JUMPER
+          JPD-300Pa
+        </>
+      ),
+      brand: "JUMPER - Angelsounds",
+      description: (
+        <>
+          Máy theo dõi tim thai và cơn co tử cung cao cấp với đầu dò{" "}
+          <span className={styles.highlight}>không dây</span> hiện đại.
+        </>
+      ),
+      images: jumper300pa ? [jumper300pa[0], jumper300pa[1], jumper300pa[2]] : [],
+      badge: "Nổi bật",
     },
-    
-  ];
+  ], []);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/products');
+        
+        // Sử dụng API URL từ môi trường (đã config trên Vercel)
+        const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+        const res = await fetch(`${API_URL}/api/products`);
+        
+        if (!res.ok) throw new Error("Không thể kết nối server");
+
         const data = await res.json();
 
-        if (data.success && data.products.length > 0) {
+        if (data.success && data.products && data.products.length > 0) {
           setProducts(data.products);
         } else {
-          // Fallback về dữ liệu tĩnh nếu backend chưa có sản phẩm
           setProducts(staticProducts);
         }
       } catch (err) {
@@ -51,7 +59,7 @@ function Product({ fullMode = false }) {
     };
 
     fetchProducts();
-  }, [staticProducts]);
+  }, [staticProducts]);   // ← Đã fix exhaustive-deps
 
   const handlePrev = (slug) => {
     setCurrentIndex((prev) => ({
@@ -70,7 +78,11 @@ function Product({ fullMode = false }) {
   const displayedProducts = fullMode ? products : products.slice(0, 6);
 
   if (loading) {
-    return <div style={{ textAlign: 'center', padding: '80px' }}>Đang tải sản phẩm...</div>;
+    return (
+      <div style={{ textAlign: "center", padding: "80px" }}>
+        Đang tải sản phẩm...
+      </div>
+    );
   }
 
   return (
@@ -93,7 +105,10 @@ function Product({ fullMode = false }) {
             const currentImage = product.images?.[index] || product.images?.[0] || "";
 
             return (
-              <div key={product.slug || product.id} className={styles.productCard}>
+              <div
+                key={product.slug || product.id}
+                className={styles.productCard}
+              >
                 <div className={styles.imageWrapper}>
                   <div className={styles.imageBox}>
                     {currentImage ? (
