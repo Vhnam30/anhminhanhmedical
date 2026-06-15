@@ -1,41 +1,69 @@
-// ============================================================
-// Hero.js – Hero Section lớn đầu trang
-// ============================================================
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Hero.module.scss';
-
-// Dữ liệu thống kê hiển thị trong hero
+import { heroBanner } from '../../assets/img/heroBanner/index.js';
+// Dữ liệu thống kê
 const STATS = [
   { value: '50+', label: 'Thiết bị bàn giao' },
   { value: '10+', label: 'Bệnh viện tin dùng' },
   { value: '24/7', label: 'Hỗ trợ kỹ thuật' },
 ];
 
+// Danh sách hình ảnh background auto-slide
+const HERO_IMAGES = [
+  heroBanner[0],
+  heroBanner[1],
+  heroBanner[2]
+];
+
 function Hero() {
   const [visible, setVisible] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Fade-in effect
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
+  // Auto slide background
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000); // 5 giây chuyển ảnh
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className={styles.hero} id="hero" aria-label="Giới thiệu công ty">
-      {/* Background dot pattern trang trí */}
+      {/* Background Image Slider */}
+      <div className={styles.bgSlider}>
+        {HERO_IMAGES.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`Hero background ${index + 1}`}
+            className={`${styles.bgImage} ${index === currentImageIndex ? styles.active : ''}`}
+          />
+        ))}
+      </div>
+
+      {/* Overlay tối */}
+      <div className={styles.overlay} />
+
+      {/* Decorations */}
       <div className={styles.bgPattern} aria-hidden="true" />
       <div className={styles.bgCircle1} aria-hidden="true" />
       <div className={styles.bgCircle2} aria-hidden="true" />
 
       <div className={`${styles.content} ${visible ? styles.visible : ''}`}>
-        {/* ── Cột trái: Text + CTA ── */}
+        {/* Cột trái: Text + CTA */}
         <div className={styles.textCol}>
-          {/* Badge chứng nhận */}
           <div className={styles.badge} role="note">
             🏅 Được cấp phép bởi Bộ Y Tế Việt Nam
           </div>
 
-          {/* Tiêu đề chính */}
           <h1 className={styles.heading}>
             Thiết Bị Y Tế{' '}
             <em className={styles.highlight}>Chính Hãng</em>
@@ -43,14 +71,12 @@ function Hero() {
             <br />Tiêu Chuẩn Quốc Tế
           </h1>
 
-          {/* Slogan mô tả */}
           <p className={styles.slogan}>
             Anh Minh Anh cung cấp thiết bị y tế hiện đại, đạt chuẩn Bộ Y Tế,
             phục vụ bệnh viện và phòng khám toàn quốc với đội ngũ kỹ thuật
             chuyên nghiệp và dịch vụ hậu mãi tận tâm.
           </p>
 
-          {/* Nút hành động - Đã sửa dùng React Router */}
           <div className={styles.ctaRow}>
             <Link to="/san-pham" className={styles.btnPrimary}>
               🔬 Tìm hiểu sản phẩm
@@ -60,7 +86,7 @@ function Hero() {
             </Link>
           </div>
 
-          {/* Thống kê nhanh */}
+          {/* Stats */}
           <div className={styles.statsRow} role="list" aria-label="Thống kê nổi bật">
             {STATS.map((s) => (
               <div key={s.label} className={styles.stat} role="listitem">
@@ -70,8 +96,6 @@ function Hero() {
             ))}
           </div>
         </div>
-
-        {/* Cột phải: Visual card (giữ nguyên nếu có) */}
       </div>
     </section>
   );
