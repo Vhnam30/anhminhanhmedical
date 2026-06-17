@@ -6,7 +6,7 @@ import Services from "../../components/Services";
 import Feature from "../../components/Feature";
 import Certificates from "../../components/Certificates";
 import About from "../../components/About";
-import Product from "../../components/Product";   // ← Thêm dòng này
+
 
 function Home() {
   const location = useLocation();
@@ -32,10 +32,6 @@ function Home() {
       <Hero />
       <Services />
       <Feature />
-      
-      {/* Phần Sản phẩm nổi bật */}
-      <Product />     {/* ← Thêm dòng này */}
-
       <Certificates />
       <About />
     </>

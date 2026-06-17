@@ -11,12 +11,7 @@ function Product({ fullMode = false }) {
   const [currentIndex, setCurrentIndex] = useState({});
 
   // Dữ liệu tĩnh fallback (sản phẩm cũ)
-  const staticProducts = [
-    {
-     
-    },
-  ];
-
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -26,12 +21,10 @@ function Product({ fullMode = false }) {
 
         if (data.success && data.products.length > 0) {
           setProducts(data.products);
-        } else {
-          setProducts(staticProducts);
-        }
+        } 
       } catch (err) {
         console.error("Lỗi tải sản phẩm từ backend:", err);
-        setProducts(staticProducts); // Fallback
+  
       } finally {
         setLoading(false);
       }
