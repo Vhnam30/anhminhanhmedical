@@ -1,3 +1,4 @@
+
 import React from "react";
 import styles from "./Footer.module.scss";
 import { logo } from "../../assets/img";
@@ -35,7 +36,21 @@ function Footer() {
                   className={styles.socialIcon}
                   aria-label="Facebook"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 48 48"
+                    width="48px"
+                    height="48px"
+                  >
+                    <path
+                      fill="#039be5"
+                      d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"
+                    />
+                    <path
+                      fill="#fff"
+                      d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"
+                    />
+                  </svg>
                 </a>
 
                 {/* TikTok */}
@@ -46,7 +61,14 @@ function Footer() {
                   className={styles.socialIcon}
                   aria-label="TikTok"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px">    <path d="M24,4H6C4.895,4,4,4.895,4,6v18c0,1.105,0.895,2,2,2h18c1.105,0,2-0.895,2-2V6C26,4.895,25.104,4,24,4z M22.689,13.474 c-0.13,0.012-0.261,0.02-0.393,0.02c-1.495,0-2.809-0.768-3.574-1.931c0,3.049,0,6.519,0,6.577c0,2.685-2.177,4.861-4.861,4.861 C11.177,23,9,20.823,9,18.139c0-2.685,2.177-4.861,4.861-4.861c0.102,0,0.201,0.009,0.3,0.015v2.396c-0.1-0.012-0.197-0.03-0.3-0.03 c-1.37,0-2.481,1.111-2.481,2.481s1.11,2.481,2.481,2.481c1.371,0,2.581-1.08,2.581-2.45c0-0.055,0.024-11.17,0.024-11.17h2.289 c0.215,2.047,1.868,3.663,3.934,3.811V13.474z"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 30 30"
+                    width="30px"
+                    height="30px"
+                  >
+                    <path d="M24,4H6C4.895,4,4,4.895,4,6v18c0,1.105,0.895,2,2,2h18c1.105,0,2-0.895,2-2V6C26,4.895,25.104,4,24,4z M22.689,13.474 c-0.13,0.012-0.261,0.02-0.393,0.02c-1.495,0-2.809-0.768-3.574-1.931c0,3.049,0,6.519,0,6.577c0,2.685-2.177,4.861-4.861,4.861 C11.177,23,9,20.823,9,18.139c0-2.685,2.177-4.861,4.861-4.861c0.102,0,0.201,0.009,0.3,0.015v2.396c-0.1-0.012-0.197-0.03-0.3-0.03 c-1.37,0-2.481,1.111-2.481,2.481s1.11,2.481,2.481,2.481c1.371,0,2.581-1.08,2.581-2.45c0-0.055,0.024-11.17,0.024-11.17h2.289 c0.215,2.047,1.868,3.663,3.934,3.811V13.474z" />
+                  </svg>
                 </a>
 
                 {/* Shopee */}
@@ -57,17 +79,34 @@ function Footer() {
                   className={styles.socialIcon}
                   aria-label="Shopee"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#f4511e" d="M36.683,43H11.317c-2.136,0-3.896-1.679-3.996-3.813l-1.272-27.14C6.022,11.477,6.477,11,7.048,11 h33.904c0.571,0,1.026,0.477,0.999,1.047l-1.272,27.14C40.579,41.321,38.819,43,36.683,43z"/><path fill="#f4511e" d="M32.5,11.5h-2C30.5,7.364,27.584,4,24,4s-6.5,3.364-6.5,7.5h-2C15.5,6.262,19.313,2,24,2 S32.5,6.262,32.5,11.5z"/><path fill="#fafafa" d="M24.248,25.688c-2.741-1.002-4.405-1.743-4.405-3.577c0-1.851,1.776-3.195,4.224-3.195 c1.685,0,3.159,0.66,3.888,1.052c0.124,0.067,0.474,0.277,0.672,0.41l0.13,0.087l0.958-1.558l-0.157-0.103 c-0.772-0.521-2.854-1.733-5.49-1.733c-3.459,0-6.067,2.166-6.067,5.039c0,3.257,2.983,4.347,5.615,5.309 c3.07,1.122,4.934,1.975,4.934,4.349c0,1.828-2.067,3.314-4.609,3.314c-2.864,0-5.326-2.105-5.349-2.125l-0.128-0.118l-1.046,1.542 l0.106,0.087c0.712,0.577,3.276,2.458,6.416,2.458c3.619,0,6.454-2.266,6.454-5.158C30.393,27.933,27.128,26.741,24.248,25.688z"/></svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 48 48"
+                    width="48px"
+                    height="48px"
+                  >
+                    <path
+                      fill="#f4511e"
+                      d="M36.683,43H11.317c-2.136,0-3.896-1.679-3.996-3.813l-1.272-27.14C6.022,11.477,6.477,11,7.048,11 h33.904c0.571,0,1.026,0.477,0.999,1.047l-1.272,27.14C40.579,41.321,38.819,43,36.683,43z"
+                    />
+                    <path
+                      fill="#f4511e"
+                      d="M32.5,11.5h-2C30.5,7.364,27.584,4,24,4s-6.5,3.364-6.5,7.5h-2C15.5,6.262,19.313,2,24,2 S32.5,6.262,32.5,11.5z"
+                    />
+                    <path
+                      fill="#fafafa"
+                      d="M24.248,25.688c-2.741-1.002-4.405-1.743-4.405-3.577c0-1.851,1.776-3.195,4.224-3.195 c1.685,0,3.159,0.66,3.888,1.052c0.124,0.067,0.474,0.277,0.672,0.41l0.13,0.087l0.958-1.558l-0.157-0.103 c-0.772-0.521-2.854-1.733-5.49-1.733c-3.459,0-6.067,2.166-6.067,5.039c0,3.257,2.983,4.347,5.615,5.309 c3.07,1.122,4.934,1.975,4.934,4.349c0,1.828-2.067,3.314-4.609,3.314c-2.864,0-5.326-2.105-5.349-2.125l-0.128-0.118l-1.046,1.542 l0.106,0.087c0.712,0.577,3.276,2.458,6.416,2.458c3.619,0,6.454-2.266,6.454-5.158C30.393,27.933,27.128,26.741,24.248,25.688z"
+                    />
+                  </svg>
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Các cột còn lại giữ nguyên */}
+          {/* Cột 2: Sản phẩm */}
           <div className={styles.col}>
             <h4 className={styles.colTitle}>Sản phẩm</h4>
             <ul className={styles.linkList}>
-              
               <li>
                 <a href="#product">Máy siêu âm thai</a>
               </li>
@@ -77,6 +116,7 @@ function Footer() {
             </ul>
           </div>
 
+          {/* Cột 3: Về chúng tôi */}
           <div className={styles.col}>
             <h4 className={styles.colTitle}>Về chúng tôi</h4>
             <ul className={styles.linkList}>
@@ -92,10 +132,18 @@ function Footer() {
             </ul>
           </div>
 
+          {/* Cột 4: Thông tin liên hệ */}
           <div className={styles.col}>
-            <h4 className={styles.colTitle}>Liên hệ ngay</h4>
+            <h4 className={styles.colTitle}>Thông tin liên hệ</h4>
             <div className={styles.contactInfo}>
-              <p>
+              {/* Địa chỉ bổ sung ở đây */}
+              <p className={styles.address}>
+                <strong>Địa chỉ:</strong>
+                <br />
+                Số 8BC, đường Lương Hữu Khánh, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh
+              </p>
+
+              <p style={{ marginTop: "12px" }}>
                 <strong>Hotline:</strong>
               </p>
               <p>
@@ -109,13 +157,34 @@ function Footer() {
                 </a>
               </p>
 
-              <p style={{ marginTop: "20px" }}>
+              <p style={{ marginTop: "16px" }}>
                 <strong>Email:</strong>
                 <br />
-                <a href="mailto:tbytamanh2025@gmail.com" className={styles.emailContact}>
+                <a
+                  href="mailto:tbytamanh2025@gmail.com"
+                  className={styles.emailContact}
+                >
                   tbytamanh2025@gmail.com
                 </a>
               </p>
+            </div>
+          </div>
+
+          {/* Cột 5: Bản đồ (Google Map) */}
+          <div className={styles.col}>
+            <h4 className={styles.colTitle}>Bản đồ</h4>
+            <div className={styles.mapContainer}>
+              {/* Dán thẻ iframe Google Maps của bạn vào đây */}
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d374.1236788600648!2d106.68708488981285!3d10.769569667212503!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f22c10e3cb7%3A0xa3aa11cd25cb08c2!2zOEJjIMSQLiBMxrDGoW5nIEjhu691IEtow6FuaCwgQuG6v24gVGjDoG5oLCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2sus!4v1785421678270!5m2!1svi!2sus"
+                title="Google Map Location"
+                width="120%"
+                height="120%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -127,7 +196,6 @@ function Footer() {
           <p className={styles.copyright}>
             © {currentYear} Thiết Bị Y Tế Anh Minh Anh. All Rights Reserved.
           </p>
-          
         </div>
       </div>
     </footer>

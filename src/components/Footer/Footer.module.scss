@@ -1,94 +1,5 @@
 
 
-// .footer {
-//   background: var(--color-green-dark);
-//   color: #ddd;
-//   padding-top: 60px;
-// }
-
-// .inner {
-//   max-width: var(--container-max);
-//   margin: 0 auto;
-//   padding: 0 5%;
-// }
-
-// .grid {
-//   display: grid;
-//   grid-template-columns: 2fr 1fr 1fr 1.5fr;
-//   gap: 40px;
-
-//   @media (max-width: 992px) {
-//     grid-template-columns: 1fr 1fr;
-//   }
-//   @media (max-width: 600px) {
-//     grid-template-columns: 1fr;
-//     gap: 36px;
-//   }
-// }
-
-// .colTitle {
-//   color: var(--color-gold);
-//   margin-bottom: 16px;
-//   font-size: 15px;
-//   font-weight: 600;
-// }
-
-// .linkList {
-//   list-style: none;
-//   padding: 0;
-
-//   a {
-//     color: #ddd;
-//     text-decoration: none;
-//     line-height: 2;
-//     transition: color 0.2s;
-
-//     &:hover {
-//       color: var(--color-gold);
-//     }
-//   }
-// }
-
-// .logoGroup {
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-//   margin-bottom: 16px;
-// }
-
-// .logo {
-//   height: 65px;
-// }
-
-// .companyName {
-//   color: #fff;
-//   font-size: 18px;
-//   font-weight: 700;
-//   margin: 0;
-// }
-
-// .tagline {
-//   color: var(--color-gold);
-//   font-size: 13px;
-//   margin: 4px 0 0;
-// }
-
-// .hotline {
-//   color: var(--color-gold);
-//   font-weight: 600;
-//   font-size: 17px;
-// }
-
-// // Bottom Bar
-// .bottomBar {
-//   background: rgba(0, 0, 0, 0.3);
-//   padding: 18px 0;
-//   margin-top: 60px;
-//   font-size: 13px;
-//   text-align: center;
-//   border-top: 1px solid rgba(255,255,255,0.1);
-// }
-
 .footer {
   background: var(--color-green-dark);
   color: #e0e0e0;
@@ -104,17 +15,26 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.4fr;
-  gap: 48px;
+  // Cấu hình 5 cột trên màn hình máy tính rộng
+  grid-template-columns: 1.8fr 1fr 1fr 1.3fr 1.5fr;
+  gap: 32px;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
+  @media (max-width: 1200px) {
+    // Thu gọn lại 3 cột ở màn hình trung bình
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 36px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
+    // 2 cột ở màn hình máy tính bảng
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 576px) {
+    // 1 cột ở màn hình điện thoại
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 32px;
   }
 }
 
@@ -214,9 +134,14 @@
   }
 }
 
-// ==================== LIÊN HỆ ====================
+// ==================== CỘT 4: LIÊN HỆ ====================
 .contactInfo {
   line-height: 1.8;
+
+  .address {
+    margin: 0;
+    line-height: 1.6;
+  }
 
   .hotline {
     color: var(--color-gold);
@@ -228,6 +153,30 @@
       color: #fff;
       text-decoration: underline;
     }
+  }
+}
+
+.emailContact {
+  color: #e0e0e0;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-gold);
+  }
+}
+
+// ==================== CỘT 5: GOOGLE MAP ====================
+.mapContainer {
+  width: 100%;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  iframe {
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -255,14 +204,10 @@
   .socialIcons {
     gap: 12px;
   }
-  
+
   .socialIcon {
     width: 44px;
     height: 44px;
     font-size: 20px;
   }
-}
-
-.emailContact {
-  text-decoration: none;
 }

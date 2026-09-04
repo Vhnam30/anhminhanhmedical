@@ -139,7 +139,7 @@
   padding: 10px 26px;
   border-radius: 50px;
   font-size: 1.05rem;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .tnetHeader {
@@ -153,50 +153,37 @@
 
 .featuresGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
   margin-bottom: 80px;
 }
 
 .featureCard {
   background: rgba(255, 255, 255, 0.13);
-  padding: 24px;
+  padding: 32px 28px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   transition: all 0.4s ease;
 
   &:hover {
     transform: translateY(-12px);
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
   }
 
-  .imageWrapper {
-    width: 100%;
-    height: 190px;
-    margin-bottom: 24px;
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
     border-radius: 16px;
-    overflow: hidden;
+    background: rgba(255, 191, 32, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.1);
-  }
-
-  .featureImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
   }
 
   .featureIcon {
-    font-size: 4.8rem;
-    color: #ffbf20;
-    opacity: 0.9;
-  }
-
-  &:hover .featureImage {
-    transform: scale(1.05);
+    font-size: 2.2rem;
+    line-height: 1;
   }
 
   h4 {
@@ -241,6 +228,8 @@
     padding: 20px 52px;
     font-size: 1.3rem;
     border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
   }
 }
 
@@ -248,13 +237,11 @@
 @media (max-width: 768px) {
   .grid, .featuresGrid { grid-template-columns: 1fr; }
   
-  .card .imageWrapper, 
-  .featureCard .imageWrapper { 
+  .card .imageWrapper { 
     height: 160px; 
   }
 
-  .card .icon,
-  .featureCard .featureIcon {
+  .card .icon {
     font-size: 3.8rem;
   }
 

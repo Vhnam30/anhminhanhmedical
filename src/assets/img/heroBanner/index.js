@@ -1,7 +1,7 @@
 const heroBanner = [
-  require("./hero1.jpg"),
-  require("./hero2.jpg"),
-  require("./hero3.jpg"),
+  require("./hero1.png"),
+  require("./hero2.png"),
+  require("./hero3.png"),
 ];
 
 export {heroBanner}
