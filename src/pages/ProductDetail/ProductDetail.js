@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import api from './api'; // 1. Dùng instance api từ api.js
+import api from '../../api/api.js'; // 1. Dùng instance api từ api.js
 import styles from './ProductDetail.module.scss';
 
 const ProductDetails = () => {
