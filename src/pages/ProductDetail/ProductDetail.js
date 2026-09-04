@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import './ProductDetail.module.scss';
+import styles from './ProductDetail.module.scss';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://anhminhanhmedical-backend.onrender.com';
 
@@ -38,37 +38,37 @@ const ProductDetails = () => {
     if (slug) fetchData();
   }, [slug]);
 
-  if (loading) return <div className="detail-loading">Đang tải thông tin chi tiết sản phẩm...</div>;
-  if (error || !product) return <div className="detail-error">{error || "Sản phẩm không tồn tại!"}</div>;
+  if (loading) return <div className={styles.detailLoading}>Đang tải thông tin chi tiết sản phẩm...</div>;
+  if (error || !product) return <div className={styles.detailError}>{error || "Sản phẩm không tồn tại!"}</div>;
 
   const images = product.images && product.images.length > 0 
     ? product.images 
     : ['https://via.placeholder.com/600x600?text=No+Image'];
 
   return (
-    <div className="product-detail-container">
+    <div className={styles.productDetailContainer}>
       {/* Breadcrumb */}
-      <div className="breadcrumb">
+      <div className={styles.breadcrumb}>
         <Link to="/">Trang chủ</Link> / <Link to="/san-pham">Sản phẩm</Link> / <span>{product.name}</span>
       </div>
 
-      <div className="detail-main-grid">
+      <div className={styles.detailMainGrid}>
         {/* Gallery bên trái */}
-        <div className="detail-gallery">
-          <div className="main-image-box">
+        <div className={styles.detailGallery}>
+          <div className={styles.mainImageBox}>
             <img 
               src={images[currentImageIndex]} 
               alt={product.name} 
-              className="main-image"
+              className={styles.mainImage}
             />
           </div>
           
           {images.length > 1 && (
-            <div className="thumbnail-list">
+            <div className={styles.thumbnailList}>
               {images.map((img, idx) => (
                 <div 
                   key={idx} 
-                  className={`thumbnail-item ${idx === currentImageIndex ? 'active' : ''}`}
+                  className={`${styles.thumbnailItem} ${idx === currentImageIndex ? styles.active : ''}`}
                   onClick={() => setCurrentImageIndex(idx)}
                 >
                   <img src={img} alt={`${product.name} thumbnail ${idx + 1}`} />
@@ -79,27 +79,27 @@ const ProductDetails = () => {
         </div>
 
         {/* Thông tin chính bên phải */}
-        <div className="detail-info">
-          <h1 className="product-title">{product.name}</h1>
-          <div className="brand-badge">Thương hiệu: <strong>{product.brand}</strong></div>
+        <div className={styles.detailInfo}>
+          <h1 className={styles.productTitle}>{product.name}</h1>
+          <div className={styles.brandBadge}>Thương hiệu: <strong>{product.brand}</strong></div>
           
-          <div className="price-box">
-            <span className="price-label">Giá niêm yết:</span>
-            <span className="price-value">
+          <div className={styles.priceBox}>
+            <span className={styles.priceLabel}>Giá niêm yết:</span>
+            <span className={styles.priceValue}>
               {product.price ? `${product.price.toLocaleString('vi-VN')} VNĐ` : 'Liên hệ báo giá'}
             </span>
           </div>
 
-          <div className="short-desc">
+          <div className={styles.shortDesc}>
             <h3>Mô tả tóm tắt:</h3>
             <p>{product.description}</p>
           </div>
 
-          <div className="action-buttons">
-            <a href="tel:0900000000" className="btn-call">
+          <div className={styles.actionButtons}>
+            <a href="tel:0900000000" className={styles.btnCall}>
               📞 Gọi tư vấn ngay
             </a>
-            <a href="https://zalo.me" target="_blank" rel="noopener noreferrer" className="btn-zalo">
+            <a href="https://zalo.me" target="_blank" rel="noopener noreferrer" className={styles.btnZalo}>
               💬 Nhắn tin Zalo
             </a>
           </div>
@@ -107,18 +107,18 @@ const ProductDetails = () => {
       </div>
 
       {/* Thông số kỹ thuật & Chi tiết */}
-      <div className="detail-tabs">
-        <div className="tab-header">
+      <div className={styles.detailTabs}>
+        <div className={styles.tabHeader}>
           <h2>Mô Tả Chi Tiết & Thông Số Kỹ Thuật</h2>
         </div>
-        <div className="tab-content">
+        <div className={styles.tabContent}>
           {detail.specifications && Object.keys(detail.specifications).length > 0 ? (
-            <table className="specs-table">
+            <table className={styles.specsTable}>
               <tbody>
                 {Object.entries(detail.specifications).map(([key, value]) => (
                   <tr key={key}>
-                    <td className="spec-name">{key}</td>
-                    <td className="spec-value">{value}</td>
+                    <td className={styles.specName}>{key}</td>
+                    <td className={styles.specValue}>{value}</td>
                   </tr>
                 ))}
               </tbody>
@@ -128,7 +128,7 @@ const ProductDetails = () => {
           )}
 
           {detail.fullDescription && (
-            <div className="full-description">
+            <div className={styles.fullDescription}>
               <h3>Đặc điểm nổi bật:</h3>
               <div dangerouslySetInnerHTML={{ __html: detail.fullDescription }} />
             </div>
