@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from './api'; // 1. Dùng instance api từ api.js
 import styles from './ProductDetail.module.scss';
-
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://anhminhanhmedical-backend.onrender.com';
 
 const ProductDetails = () => {
   const { slug } = useParams();
   
   const [product, setProduct] = useState(null);
-  const [detail, setDetail] = useState(null);
+  const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -18,38 +16,59 @@ const ProductDetails = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${API_BASE_URL}/api/product-details/${slug}`);
-        
-        if (res.data.success) {
-          setProduct(res.data.product);
-          setDetail(res.data.detail || {});
-          setCurrentImageIndex(0);
+        setError(null);
+
+        // 2. Gọi hàm từ api.js (Endpoint: /api/product-details/${slug})
+        const res = await api.getProductDetail(slug);
+        const data = res.data;
+
+        // 3. Linh hoạt bóc tách dữ liệu tùy theo Response Structure của Backend
+        if (data) {
+          // Trường hợp Backend trả về dạng { success: true, product, detail }
+          // hoặc { product, productDetail }, hoặc object trực tiếp
+          const mainProduct = data.product || data.data?.product || data;
+          const subDetail = data.detail || data.productDetail || data.data?.detail || {};
+
+          if (mainProduct && (mainProduct._id || mainProduct.name || mainProduct.title)) {
+            setProduct(mainProduct);
+            setDetail(subDetail);
+            setCurrentImageIndex(0);
+          } else {
+            setError("Không tìm thấy thông tin sản phẩm");
+          }
         } else {
-          setError("Không tìm thấy sản phẩm");
+          setError("Không có dữ liệu trả về từ server");
         }
       } catch (err) {
         console.error("❌ Fetch Error:", err);
-        setError("Lỗi khi tải dữ liệu sản phẩm");
+        setError(err.response?.data?.message || "Lỗi khi tải dữ liệu sản phẩm");
       } finally {
         setLoading(false);
       }
     };
 
-    if (slug) fetchData();
+    if (slug) {
+      fetchData();
+    }
   }, [slug]);
 
-  if (loading) return <div className={styles.detailLoading}>Đang tải thông tin chi tiết sản phẩm...</div>;
-  if (error || !product) return <div className={styles.detailError}>{error || "Sản phẩm không tồn tại!"}</div>;
+  if (loading) {
+    return <div className={styles.detailLoading}>Đang tải thông tin chi tiết sản phẩm...</div>;
+  }
+
+  if (error || !product) {
+    return <div className={styles.detailError}>{error || "Sản phẩm không tồn tại!"}</div>;
+  }
 
   const images = product.images && product.images.length > 0 
     ? product.images 
-    : ['https://via.placeholder.com/600x600?text=No+Image'];
+    : [product.image || 'https://via.placeholder.com/600x600?text=No+Image'];
 
   return (
     <div className={styles.productDetailContainer}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link to="/">Trang chủ</Link> / <Link to="/san-pham">Sản phẩm</Link> / <span>{product.name}</span>
+        <Link to="/">Trang chủ</Link> / <Link to="/san-pham">Sản phẩm</Link> / <span>{product.name || product.title}</span>
       </div>
 
       <div className={styles.detailMainGrid}>
@@ -58,7 +77,7 @@ const ProductDetails = () => {
           <div className={styles.mainImageBox}>
             <img 
               src={images[currentImageIndex]} 
-              alt={product.name} 
+              alt={product.name || 'Product Image'} 
               className={styles.mainImage}
             />
           </div>
@@ -80,19 +99,19 @@ const ProductDetails = () => {
 
         {/* Thông tin chính bên phải */}
         <div className={styles.detailInfo}>
-          <h1 className={styles.productTitle}>{product.name}</h1>
-          <div className={styles.brandBadge}>Thương hiệu: <strong>{product.brand}</strong></div>
+          <h1 className={styles.productTitle}>{product.name || product.title}</h1>
+          <div className={styles.brandBadge}>Thương hiệu: <strong>{product.brand || 'Đang cập nhật'}</strong></div>
           
           <div className={styles.priceBox}>
             <span className={styles.priceLabel}>Giá niêm yết:</span>
             <span className={styles.priceValue}>
-              {product.price ? `${product.price.toLocaleString('vi-VN')} VNĐ` : 'Liên hệ báo giá'}
+              {product.price ? `${Number(product.price).toLocaleString('vi-VN')} VNĐ` : 'Liên hệ báo giá'}
             </span>
           </div>
 
           <div className={styles.shortDesc}>
             <h3>Mô tả tóm tắt:</h3>
-            <p>{product.description}</p>
+            <p>{product.description || 'Chưa có mô tả tóm tắt.'}</p>
           </div>
 
           <div className={styles.actionButtons}>
@@ -112,7 +131,7 @@ const ProductDetails = () => {
           <h2>Mô Tả Chi Tiết & Thông Số Kỹ Thuật</h2>
         </div>
         <div className={styles.tabContent}>
-          {detail.specifications && Object.keys(detail.specifications).length > 0 ? (
+          {detail && detail.specifications && Object.keys(detail.specifications).length > 0 ? (
             <table className={styles.specsTable}>
               <tbody>
                 {Object.entries(detail.specifications).map(([key, value]) => (
@@ -127,7 +146,7 @@ const ProductDetails = () => {
             <p>Thông số kỹ thuật đang được cập nhật...</p>
           )}
 
-          {detail.fullDescription && (
+          {detail && detail.fullDescription && (
             <div className={styles.fullDescription}>
               <h3>Đặc điểm nổi bật:</h3>
               <div dangerouslySetInnerHTML={{ __html: detail.fullDescription }} />
