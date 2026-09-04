@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../../api/api.js';
 import styles from './ProductDetail.module.scss';
 
@@ -75,8 +74,7 @@ const ProductDetails = () => {
     <div className={styles.productDetailContainer}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <RouterLink to="/">Trang chủ</RouterLink> /{' '}
-        <RouterLink to="/san-pham">Sản phẩm</RouterLink> /{' '}
+        <Link to="/">Trang chủ</Link> / <Link to="/san-pham">Sản phẩm</Link> /{' '}
         <span>{product.name || product.title}</span>
       </div>
 
