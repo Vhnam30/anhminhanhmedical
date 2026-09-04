@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import styles from "./ProductDetail.module.scss";
+import './ProductDetail.module.scss';
 
-function ProductDetail() {
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://anhminhanhmedical-backend.onrender.com';
+
+const ProductDetails = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
   
   const [product, setProduct] = useState(null);
-  const [detail, setDetail] = useState({});
+  const [detail, setDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("specs");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/api/product-details/${slug}`);
+        const res = await axios.get(`${API_BASE_URL}/api/product-details/${slug}`);
         
         if (res.data.success) {
           setProduct(res.data.product);
           setDetail(res.data.detail || {});
-          setCurrentImageIndex(0); // Reset index khi load sản phẩm mới
+          setCurrentImageIndex(0);
         } else {
           setError("Không tìm thấy sản phẩm");
         }
@@ -38,146 +38,105 @@ function ProductDetail() {
     if (slug) fetchData();
   }, [slug]);
 
-  // === AUTO SLIDE - ĐÃ TỐI ƯU ===
-  useEffect(() => {
-    const detailImages = detail.images || [];
-    const productImages = product?.images || [];
-    const allImages = detailImages.length > 0 ? detailImages : productImages;
+  if (loading) return <div className="detail-loading">Đang tải thông tin chi tiết sản phẩm...</div>;
+  if (error || !product) return <div className="detail-error">{error || "Sản phẩm không tồn tại!"}</div>;
 
-    if (allImages.length <= 1) {
-      setCurrentImageIndex(0);
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-    }, 4000); // 4 giây - dễ nhìn hơn
-
-    return () => clearInterval(interval);
-  }, [detail.images, product?.images]); // Phụ thuộc vào mảng ảnh
-
-  const goToContact = () => {
-    navigate("/lien-he");
-  };
-
-  if (loading) return <div style={{ padding: '100px', textAlign: 'center' }}>Đang tải thông tin sản phẩm...</div>;
-  if (error) return <div style={{ padding: '100px', textAlign: 'center', color: 'red' }}>{error}</div>;
-  if (!product) return <div style={{ padding: '100px', textAlign: 'center' }}>Không tìm thấy sản phẩm</div>;
-
-  // Ưu tiên ảnh từ ProductDetail
-  const detailImages = detail.images || [];
-  const productImages = product?.images || [];
-  const allImages = detailImages.length > 0 ? detailImages : productImages;
-
-  const currentImage = allImages[currentImageIndex] || allImages[0] || null;
+  const images = product.images && product.images.length > 0 
+    ? product.images 
+    : ['https://via.placeholder.com/600x600?text=No+Image'];
 
   return (
-    <section className={styles.section} id="product">
-      <div className={styles.inner}>
-        <div className={styles.grid}>
-          
-          {/* Cột trái: Hình ảnh - AUTO SLIDE */}
-          <div className={styles.imageCol}>
-            <div className={styles.imageBox} role="img" aria-label={product.name}>
-              {currentImage ? (
-                <img
-                  src={currentImage}
-                  alt={product.name}
-                  className={styles.productImage}
-                />
-              ) : (
-                <div className={styles.placeholder}>Đang cập nhật hình ảnh</div>
-              )}
-              
-              <div className={styles.certBadge}>✅ Sản phẩm chính hãng</div>
-            </div>
+    <div className="product-detail-container">
+      {/* Breadcrumb */}
+      <div className="breadcrumb">
+        <Link to="/">Trang chủ</Link> / <Link to="/san-pham">Sản phẩm</Link> / <span>{product.name}</span>
+      </div>
 
-            {/* Dots indicator */}
-            {allImages.length > 1 && (
-              <div className={styles.dots}>
-                {allImages.map((_, index) => (
-                  <span
-                    key={index}
-                    className={`${styles.dot} ${index === currentImageIndex ? styles.activeDot : ''}`}
-                    onClick={() => setCurrentImageIndex(index)} // Click để chọn ảnh
-                  />
-                ))}
-              </div>
-            )}
+      <div className="detail-main-grid">
+        {/* Gallery bên trái */}
+        <div className="detail-gallery">
+          <div className="main-image-box">
+            <img 
+              src={images[currentImageIndex]} 
+              alt={product.name} 
+              className="main-image"
+            />
           </div>
-
-          {/* Cột phải: Thông tin */}
-          <div className={styles.infoCol}>
-            <span className={styles.sectionTag}>{detail.tag || 'Sản phẩm cao cấp'}</span>
-            <div className={styles.brand}>{product.brand}</div>
-            <h2 className={styles.productName}>{product.name}</h2>
-            <p className={styles.description}>
-              {detail.longDescription || product.description}
-            </p>
-
-            {/* Tabs */}
-            <div className={styles.tabRow} role="tablist">
-              {["specs", "advantages"].map((tab) => (
-                <button
-                  key={tab}
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ""}`}
-                  onClick={() => setActiveTab(tab)}
+          
+          {images.length > 1 && (
+            <div className="thumbnail-list">
+              {images.map((img, idx) => (
+                <div 
+                  key={idx} 
+                  className={`thumbnail-item ${idx === currentImageIndex ? 'active' : ''}`}
+                  onClick={() => setCurrentImageIndex(idx)}
                 >
-                  {tab === "specs" ? "📋 Thông số kỹ thuật" : "🌟 Ưu điểm nổi bật"}
-                </button>
+                  <img src={img} alt={`${product.name} thumbnail ${idx + 1}`} />
+                </div>
               ))}
             </div>
+          )}
+        </div>
 
-            {/* Nội dung tab */}
-            <div role="tabpanel">
-              {activeTab === "specs" ? (
-                <ul className={styles.specsList}>
-                  {detail.specs && detail.specs.length > 0 ? (
-                    detail.specs.map((spec, i) => (
-                      <li key={i} className={styles.specItem}>
-                        <span className={styles.checkIcon}>✓</span>
-                        {spec}
-                      </li>
-                    ))
-                  ) : (
-                    <p>Chưa có thông số kỹ thuật</p>
-                  )}
-                </ul>
-              ) : (
-                <div className={styles.advantages}>
-                  <ul className={styles.specsList}>
-                    {detail.advantages && detail.advantages.length > 0 ? (
-                      detail.advantages.map((adv, i) => (
-                        <li key={i} className={styles.specItem}>• {adv}</li>
-                      ))
-                    ) : (
-                      <li>Chưa có ưu điểm nổi bật</li>
-                    )}
-                  </ul>
-                </div>
-              )}
-            </div>
+        {/* Thông tin chính bên phải */}
+        <div className="detail-info">
+          <h1 className="product-title">{product.name}</h1>
+          <div className="brand-badge">Thương hiệu: <strong>{product.brand}</strong></div>
+          
+          <div className="price-box">
+            <span className="price-label">Giá niêm yết:</span>
+            <span className="price-value">
+              {product.price ? `${product.price.toLocaleString('vi-VN')} VNĐ` : 'Liên hệ báo giá'}
+            </span>
+          </div>
 
-            {/* Giá & CTA */}
-            <div className={styles.priceBlock}>
-              <div className={styles.price}>{detail.price || "Liên hệ để nhận báo giá"}</div>
-            </div>
+          <div className="short-desc">
+            <h3>Mô tả tóm tắt:</h3>
+            <p>{product.description}</p>
+          </div>
 
-            <div className={styles.btnRow}>
-              <button className={styles.btnGreen} onClick={goToContact}>
-                🛒 Đặt hàng ngay
-              </button>
-              <button className={styles.btnGold} onClick={goToContact}>
-                📞 Tư vấn miễn phí
-              </button>
-            </div>
+          <div className="action-buttons">
+            <a href="tel:0900000000" className="btn-call">
+              📞 Gọi tư vấn ngay
+            </a>
+            <a href="https://zalo.me" target="_blank" rel="noopener noreferrer" className="btn-zalo">
+              💬 Nhắn tin Zalo
+            </a>
           </div>
         </div>
       </div>
-    </section>
-  );
-}
 
-export default ProductDetail;
+      {/* Thông số kỹ thuật & Chi tiết */}
+      <div className="detail-tabs">
+        <div className="tab-header">
+          <h2>Mô Tả Chi Tiết & Thông Số Kỹ Thuật</h2>
+        </div>
+        <div className="tab-content">
+          {detail.specifications && Object.keys(detail.specifications).length > 0 ? (
+            <table className="specs-table">
+              <tbody>
+                {Object.entries(detail.specifications).map(([key, value]) => (
+                  <tr key={key}>
+                    <td className="spec-name">{key}</td>
+                    <td className="spec-value">{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>Thông số kỹ thuật đang được cập nhật...</p>
+          )}
+
+          {detail.fullDescription && (
+            <div className="full-description">
+              <h3>Đặc điểm nổi bật:</h3>
+              <div dangerouslySetInnerHTML={{ __html: detail.fullDescription }} />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetails;

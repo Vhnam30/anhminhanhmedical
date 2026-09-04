@@ -12,26 +12,27 @@ function Product({ fullMode = false }) {
 
   // Dữ liệu tĩnh fallback (sản phẩm cũ)
  
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("http://localhost:5000/api/products");
-        const data = await res.json();
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://anhminhanhmedical-backend.onrender.com';
 
-        if (data.success && data.products.length > 0) {
-          setProducts(data.products);
-        } 
-      } catch (err) {
-        console.error("Lỗi tải sản phẩm từ backend:", err);
-  
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_BASE_URL}/api/products`);
+      const data = await res.json();
 
-    fetchProducts();
-  }, []);
+      if (data.success && data.products.length > 0) {
+        setProducts(data.products);
+      } 
+    } catch (err) {
+      console.error("Lỗi tải sản phẩm từ backend:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   const handlePrev = (slug) => {
     setCurrentIndex((prev) => ({

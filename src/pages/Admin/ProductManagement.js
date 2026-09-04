@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://anhminhanhmedical-backend.onrender.com';
+
 function ProductManagement() {
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
@@ -21,7 +23,7 @@ function ProductManagement() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await axios.get(`${API_BASE_URL}/api/products`);
       setProducts(res.data.products || []);
     } catch (err) {
       console.error(err);
@@ -41,15 +43,16 @@ function ProductManagement() {
     });
 
     try {
-      await axios.post('http://localhost:5000/api/products', data, {
+      await axios.post(`${API_BASE_URL}/api/products`, data, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        withCredentials: true
       });
       
       alert('Tạo sản phẩm thành công!');
-      fetchProducts(); // Refresh danh sách
+      fetchProducts();
       setFormData({ name: '', brand: '', description: '', category: '', price: '', featured: false });
       setImages([]);
     } catch (error) {
@@ -61,7 +64,6 @@ function ProductManagement() {
     <div style={{ padding: '20px' }}>
       <h2>Quản lý Sản phẩm</h2>
 
-      {/* Form tạo sản phẩm */}
       <form onSubmit={handleSubmit} style={{ marginBottom: '40px', border: '1px solid #ddd', padding: '20px' }}>
         <h3>Thêm Sản Phẩm Mới</h3>
         <input type="text" placeholder="Tên sản phẩm" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required style={{width: '100%', margin: '8px 0', padding: '8px'}} />
@@ -75,43 +77,43 @@ function ProductManagement() {
         </button>
       </form>
 
-      {/* Danh sách sản phẩm */}
       <h3>Danh sách Sản phẩm ({products.length})</h3>
-<table style={{ width: '100%', borderCollapse: 'collapse' }}>
-  <thead>
-    <tr>
-      <th>Tên sản phẩm</th>
-      <th>Thương hiệu</th>
-      <th>Giá</th>
-      <th>Hành động</th>
-    </tr>
-  </thead>
-  <tbody>
-    {products.map(p => (
-      <tr key={p._id}>
-        <td>{p.name}</td>
-        <td>{p.brand}</td>
-        <td>{p.price.toLocaleString()}đ</td>
-        <td>
-          <button onClick={() => alert('Chức năng sửa sẽ làm sau')}>Sửa</button>
-          <button 
-            onClick={async () => {
-              if (window.confirm('Xóa sản phẩm này?')) {
-                await axios.delete(`http://localhost:5000/api/products/${p.slug}`, {
-                  headers: { Authorization: `Bearer ${token}` }
-                });
-                fetchProducts();
-              }
-            }}
-            style={{ marginLeft: '8px', color: 'red' }}
-          >
-            Xóa
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th>Tên sản phẩm</th>
+            <th>Thương hiệu</th>
+            <th>Giá</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map(p => (
+            <tr key={p._id}>
+              <td>{p.name}</td>
+              <td>{p.brand}</td>
+              <td>{p.price?.toLocaleString()}đ</td>
+              <td>
+                <button onClick={() => alert('Chức năng sửa sẽ làm sau')}>Sửa</button>
+                <button 
+                  onClick={async () => {
+                    if (window.confirm('Xóa sản phẩm này?')) {
+                      await axios.delete(`${API_BASE_URL}/api/products/${p.slug}`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                        withCredentials: true
+                      });
+                      fetchProducts();
+                    }
+                  }}
+                  style={{ marginLeft: '8px', color: 'red' }}
+                >
+                  Xóa
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
