@@ -229,13 +229,7 @@ function ProductDetailManagement() {
               className={styles.textarea}
             />
 
-            <h4>Chứng nhận (mỗi dòng một chứng nhận)</h4>
-            <textarea 
-              value={Array.isArray(detailData.certifications) ? detailData.certifications.join('\n') : ''}
-              onChange={(e) => handleInputChange('certifications', e.target.value.split('\n'))}
-              rows={6}
-              className={styles.textarea}
-            />
+            
 
             <input 
               type="text" 

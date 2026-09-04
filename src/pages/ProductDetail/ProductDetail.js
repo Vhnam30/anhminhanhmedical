@@ -177,17 +177,7 @@ const ProductDetails = () => {
             </div>
           )}
 
-          {/* Chứng nhận */}
-          {detail?.certifications?.length > 0 && (
-            <div className={styles.certificationsSection}>
-              <h3>Chứng nhận</h3>
-              <ul>
-                {detail.certifications.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+         
 
           {/* Mô tả dài */}
           {detail?.longDescription && (
